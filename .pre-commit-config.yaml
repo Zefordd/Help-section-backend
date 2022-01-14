@@ -1,0 +1,42 @@
+repos:
+  - repo: local
+    hooks:
+      - id: pipfile_libraries_check
+        name: Pipfile libraries check
+        entry: bash src/check_pipfile.sh check_pipfile
+        language: system
+        require_serial: true
+  - repo: local
+    hooks:
+      - id: migrations
+        name: migrations
+        entry: bash pre_commit_migrations.sh
+        language: system
+        types: [python]
+        pass_filenames: false
+        require_serial: true
+  - repo: local
+    hooks:
+      - id: autoflake
+        name: autoflake
+        entry: autoflake --in-place --remove-all-unused-imports --ignore-init-module-imports -r .
+        language: system
+        types: [python]
+        require_serial: true
+  - repo: https://github.com/asottile/seed-isort-config
+    rev: v1.9.1
+    hooks:
+      - id: seed-isort-config
+  - repo: https://github.com/timothycrosley/isort
+    rev: '4.3.21'
+    hooks:
+      - id: isort
+  - repo: https://github.com/psf/black
+    rev: '19.10b0'
+    hooks:
+      - id: black
+        language: python
+  - repo: https://gitlab.com/pycqa/flake8
+    rev: 3.8.2
+    hooks:
+      - id: flake8
