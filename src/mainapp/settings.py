@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     # local apps
     'mainapp',
     'help',
+    'attachment',
 ]
 
 MIDDLEWARE = [

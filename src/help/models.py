@@ -1,3 +1,4 @@
+from attachment.models import FileAttachment
 from django.contrib.auth.models import Group
 from django.db import models
 from django.utils import timezone
@@ -46,6 +47,7 @@ class Subsection(LastActionModel):
     roles = models.ManyToManyField(to=Group, blank=True)
     order = models.PositiveSmallIntegerField(default=0)
     deleted_at = models.DateTimeField(null=True, blank=True)
+    documents = models.ManyToManyField(to=FileAttachment, blank=True, related_name='subsection_documents')
 
     def get_max_order(self):
         return self._meta.model.objects.filter(section=self.section).aggregate(max_num=models.Max('order'))['max_num']
