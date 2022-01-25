@@ -15,7 +15,7 @@ def get_dev_user_list() -> list[dict]:
     for group_name in GroupName.all_values():
         users.append(
             {
-                'username': f'{group_name}_user',
+                'username': group_name,
                 'email': f'{group_name}@mail.com',
                 'password': group_name,
                 'first_name': f'{group_name}_first_name',

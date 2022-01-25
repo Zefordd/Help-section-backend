@@ -1,8 +1,8 @@
 from mainapp.auth import PermissionsEnum
-from rest_framework import permissions
+from mainapp.auth.permissions import Permissions
 
 
-class HelpPermission(permissions.BasePermission):
+class HelpPermission(Permissions):
     perms_map = {
         'GET': [PermissionsEnum.HELP_FULL_PERMISSIONS],
         'OPTIONS': [PermissionsEnum.HELP_FULL_PERMISSIONS],

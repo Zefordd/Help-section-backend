@@ -4,7 +4,7 @@ from django.db.models import TextChoices
 class GroupName(TextChoices):
     admin = 'admin'
     content_manager = 'content_manager'
-    client = 'client'
+    customer = 'customer'
     manager = 'manager'
 
     @classmethod

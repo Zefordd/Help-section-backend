@@ -34,9 +34,11 @@ INSTALLED_APPS = [
     'attachment',
 ]
 
-
-REST_FRAMEWORK = {'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'}
-
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 50,
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -109,3 +111,9 @@ MEDIA_ROOT = os.path.join(PROJECT_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'mainapp.User'
+
+
+MAINAPP_PATH = os.path.dirname(os.path.abspath(__file__))
+TEST_DATA_PATH = os.path.join(MAINAPP_PATH, 'test_data')
+TEST_IMAGE = os.path.join(TEST_DATA_PATH, 'jpeg.jpeg')
+TEST_PDF = os.path.join(TEST_DATA_PATH, 'pdf.pdf')
