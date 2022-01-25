@@ -1,3 +1,5 @@
+import os
+import posixpath
 from pathlib import Path
 
 from environs import Env
@@ -7,6 +9,7 @@ env.read_env(override=True)
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+PROJECT_DIR = os.path.dirname(BASE_DIR)
 
 SECRET_KEY = env.str('SECRET_KEY', '')
 
@@ -22,11 +25,18 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # additional libs
+    'rest_framework',
+    'drf_yasg',
     # local apps
     'mainapp',
     'help',
     'attachment',
 ]
+
+
+REST_FRAMEWORK = {'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'}
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -87,7 +97,14 @@ USE_I18N = True
 USE_TZ = True
 
 
-STATIC_URL = 'static/'
+_url_prefix = env.str('API_URL_PEFIX', '')
+URL_PREFIX = posixpath.join(_url_prefix, '')
+
+MEDIA_URL = posixpath.join(URL_PREFIX, 'media/')
+STATIC_URL = posixpath.join(URL_PREFIX, 'static/')
+
+STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
+MEDIA_ROOT = os.path.join(PROJECT_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 

@@ -3,7 +3,7 @@ from django.db.models import TextChoices
 
 class GroupName(TextChoices):
     admin = 'admin'
-    moderator = 'moderator'
+    content_manager = 'content_manager'
     client = 'client'
     manager = 'manager'
 
