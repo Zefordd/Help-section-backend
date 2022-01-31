@@ -1,5 +1,5 @@
-from .choices import ReferenceInfoStatus
+from .choices import ReferenceInfoStatus, ArticleContentType
 
 __all__ = [
-    'ReferenceInfoStatus',
+    'ReferenceInfoStatus', 'ArticleContentType'
 ]

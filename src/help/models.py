@@ -2,7 +2,7 @@ from attachment.models import FileAttachment
 from django.contrib.auth.models import Group
 from django.db import models
 from django.utils import timezone
-from help.constants import ReferenceInfoStatus
+from help.constants import ReferenceInfoStatus, ArticleContentType
 
 
 class LastActionModel(models.Model):
@@ -54,6 +54,29 @@ class Subsection(LastActionModel):
 
     def is_released(self):
         return self.status == ReferenceInfoStatus.published
+
+    class Meta:
+        ordering = ('order', 'id')
+
+
+class ArticleContent(LastActionModel):
+    subsection = models.ForeignKey(Subsection, related_name='article_content', on_delete=models.CASCADE)
+    order = models.PositiveSmallIntegerField(default=0)
+    content_type = models.CharField(
+        max_length=120, choices=ArticleContentType.choices, default=ArticleContentType.subtitle
+    )
+    subtitle = models.CharField(max_length=100, blank=True, null=True)
+    text = models.TextField(blank=True, null=True)
+    video_url = models.URLField(blank=True, null=True)
+    image = models.ForeignKey(
+        FileAttachment, on_delete=models.SET_NULL, blank=True, null=True, related_name='article_image'
+    )
+
+    def has_content(self):
+        if self.content_type == ArticleContentType.image:
+            return self.image_id is not None
+        field_content = getattr(self, self.content_type)
+        return field_content != '' and field_content is not None
 
     class Meta:
         ordering = ('order', 'id')
