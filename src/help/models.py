@@ -2,7 +2,7 @@ from attachment.models import FileAttachment
 from django.contrib.auth.models import Group
 from django.db import models
 from django.utils import timezone
-from help.constants import ReferenceInfoStatus, ArticleContentType
+from help.constants import ArticleContentType, ReferenceInfoStatus
 
 
 class LastActionModel(models.Model):
