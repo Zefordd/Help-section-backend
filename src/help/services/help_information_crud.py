@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import Union
 
 from help.constants import ReferenceInfoStatus
@@ -43,6 +44,24 @@ def is_published_instance(new_status: str, instance: Union[Section, Subsection])
     return already_published or will_be_published
 
 
+def is_single_subsection(subsection: Subsection) -> bool:
+    return subsection.section.subsections.count() == 1
+
+
+def unpublish_parent_section(subsection: Subsection, user: User):
+    subsection.section.status = ReferenceInfoStatus.unpublished
+    subsection.section.user = user
+    subsection.section.save()
+
+
+def publish_parent_section(subsection: Subsection, user: User):
+    if subsection.section.status == ReferenceInfoStatus.published:
+        return
+    subsection.section.status = ReferenceInfoStatus.published
+    subsection.section.updated_by = user
+    subsection.section.save()
+
+
 def update_section(section: Section, user: User, data: dict):
     if section.is_released and data.get('status') == ReferenceInfoStatus.unpublished:
         unpublish_child_subsections(section, user)
@@ -53,3 +72,35 @@ def update_section(section: Section, user: User, data: dict):
             err_msg = 'Add content to subsections (' + '; '.join(subs_names) + ';)'
             raise ValidationError(err_msg)
         publish_child_subsections(section, user)
+
+
+def update_subsection(subsection: Subsection, user: User, data: dict):
+    if (
+        subsection.is_released
+        and data.get('status') == ReferenceInfoStatus.unpublished
+        and is_single_subsection(subsection)
+    ):
+        unpublish_parent_section(subsection, user)
+    if is_published_instance(data.get('status'), subsection):
+        if not subsection_has_content(subsection):
+            raise ValidationError('You need to add content to the subsection')
+        publish_parent_section(subsection, user)
+
+
+def delete_section(section: Section, user: User):
+    now = datetime.now()
+    section.status = ReferenceInfoStatus.unpublished
+    section.deleted_at = now
+    section.updated_by = user
+    section.save()
+    section.subsections.update(status=ReferenceInfoStatus.unpublished, deleted_at=now, updated_by=user)
+
+
+def delete_subsection(subsection: Subsection, user: User):
+    now = datetime.now()
+    if is_single_subsection(subsection):
+        return delete_section(subsection.section, user)
+    subsection.status = ReferenceInfoStatus.unpublished
+    subsection.deleted_at = now
+    subsection.updated_by = user
+    subsection.save()
