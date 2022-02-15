@@ -103,3 +103,17 @@ class SubsectionSerializer(serializers.ModelSerializer):
             'documents',
             'article_content',
         )
+
+
+class InstructionsSectionSerializer(serializers.ModelSerializer):
+    subsections = serializers.SerializerMethodField()
+    page_url = serializers.CharField(read_only=True)
+
+    def get_subsections(self, obj):
+        subsections = obj.subsections_with_roles
+        serializer = _SectionSubsectionsSerializer(subsections, many=True)
+        return serializer.data
+
+    class Meta:
+        model = help_models.Section
+        fields = ('id', 'name', 'status', 'page_url', 'order', 'subsections')
