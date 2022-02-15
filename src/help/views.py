@@ -1,4 +1,5 @@
 from attachment.views import MediaViewSet
+from django.contrib.auth.models import Group
 from help import custom_permissions
 from help import models as help_models
 from help import serializers as help_serializers
@@ -53,3 +54,23 @@ class SubsectionViewSet(
 
     def perform_destroy(self, instance):
         delete_subsection(instance, self.request.user)
+
+
+class ArticleContentViewSet(
+    mixins.RetrieveModelMixin,
+    mixins.CreateModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.ListModelMixin,
+    mixins.DestroyModelMixin,
+    viewsets.GenericViewSet,
+):
+    queryset = help_models.ArticleContent.objects.all()
+    serializer_class = help_serializers.ArticleContentSerializer
+    permission_classes = (custom_permissions.HelpPermission,)
+
+
+class HelpRoleViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Group.objects.all().select_related('group_property').order_by('id')
+    serializer_class = help_serializers.RoleSerializer
+    permission_classes = (custom_permissions.HelpPermission,)
+    pagination_class = None
