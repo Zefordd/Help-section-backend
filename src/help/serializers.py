@@ -61,7 +61,7 @@ class ArticleContentSerializer(serializers.ModelSerializer):
 class RoleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Group
-        fields = ('id', 'name', 'name_ru')
+        fields = ('id', 'name')
 
 
 class SubsectionSerializer(serializers.ModelSerializer):
