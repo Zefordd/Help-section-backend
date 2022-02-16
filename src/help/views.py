@@ -93,3 +93,15 @@ class SectionInstructionsViewSet(mixins.ListModelMixin, viewsets.GenericViewSet)
         roles = get_user_roles(self.request.user)
         page_url = self.request.query_params.get('page_url', BASE_PAGE_URL)
         return help_models.Section.objects.instructions(roles=roles, page_url=page_url)
+
+
+class SubsectionInstructionsViewSet(
+    mixins.RetrieveModelMixin, viewsets.GenericViewSet,
+):
+    queryset = help_models.Subsection.objects.all()
+    serializer_class = help_serializers.SubsectionSerializer
+    pagination_class = None
+
+    def get_queryset(self):
+        roles = get_user_roles(self.request.user)
+        return help_models.Subsection.objects.content(roles=roles)
