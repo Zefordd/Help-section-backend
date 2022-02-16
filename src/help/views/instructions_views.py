@@ -1,3 +1,8 @@
+"""
+API endpoints for help section data display for users
+"""
+
+
 from django.utils.decorators import method_decorator
 from help import models as help_models
 from help import serializers as help_serializers

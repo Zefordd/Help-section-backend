@@ -1,3 +1,8 @@
+"""
+API endpoints for fields with select options and media content
+"""
+
+
 from attachment.views import MediaViewSet
 from django.contrib.auth.models import Group
 from help import custom_permissions

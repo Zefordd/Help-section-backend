@@ -107,6 +107,9 @@ def delete_subsection(subsection: Subsection, user: User):
 
 
 def remove_deleted_help_info_instances():
+    """
+    Removes from database help sections data with 'deleted_at' older than 7 days
+    """
     seven_days_ago = datetime.now() - timedelta(days=7)
     Section.objects.filter(deleted_at__lte=seven_days_ago).delete()
     Subsection.objects.filter(deleted_at__lte=seven_days_ago).delete()

@@ -1,3 +1,8 @@
+"""
+Endpoints for drag and drop functionality implementation on frontend
+"""
+
+
 from help import models as help_models
 from help.custom_permissions import HelpPermission
 from help.schema_decorators import drag_and_drop_schema

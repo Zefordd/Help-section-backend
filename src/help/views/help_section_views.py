@@ -1,3 +1,8 @@
+"""
+API endpoints for help section data management (admin panel)
+"""
+
+
 from help import custom_permissions
 from help import models as help_models
 from help import serializers as help_serializers
