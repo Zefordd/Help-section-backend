@@ -1,4 +1,7 @@
 import pytest
+from attachment.models import FileAttachment
+from django.conf import settings
+from django.core.files import File
 from django.core.management import call_command
 from mainapp.auth import GroupName
 from mainapp.models import User
@@ -51,3 +54,11 @@ def get_groups_statuses_map(
     for role, status_code in custom_roles_statuses.items():
         mapping.append((role, status_code))
     return mapping
+
+
+def get_test_file_attachment(file_name):
+    with open(settings.TEST_IMAGE, 'rb') as image_file:
+        file_instance = File(image_file)
+        attachment = FileAttachment.objects.create()
+        attachment.file.save(file_name, file_instance)
+        return attachment
