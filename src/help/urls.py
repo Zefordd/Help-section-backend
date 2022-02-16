@@ -1,8 +1,13 @@
+from django.urls import path
 from rest_framework import routers
 
 from . import views
 
-urlpatterns = []
+urlpatterns = [
+    path('sections_order/', views.SectionOrderUpdateView.as_view(), name='sections_order'),
+    path('subsections_order/', views.SubsectionOrderUpdateView.as_view(), name='subsections_order'),
+    path('article_content_order/', views.ArticleContentOrderUpdateView.as_view(), name='article_content_order'),
+]
 
 
 router = routers.SimpleRouter()
