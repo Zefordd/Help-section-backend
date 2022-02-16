@@ -6,7 +6,7 @@ from help import models as help_models
 from help import serializers as help_serializers
 from help.constants import BASE_PAGE_URL
 from help.schema_decorators import instructions_schema
-from help.services.help_information_crud import delete_subsection
+from help.services.help_information_crud import delete_section, delete_subsection
 from mainapp.utils import get_user_roles
 from rest_framework import mixins, viewsets
 from rest_framework.decorators import action
@@ -36,6 +36,9 @@ class SectionViewSet(
     queryset = help_models.Section.objects.prefetch_related('subsections').filter(deleted_at__isnull=True).all()
     serializer_class = help_serializers.SectionSerializer
     permission_classes = (custom_permissions.HelpPermission,)
+
+    def perform_destroy(self, instance):
+        delete_section(instance, self.request.user)
 
 
 class SubsectionViewSet(

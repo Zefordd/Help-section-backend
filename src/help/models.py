@@ -3,6 +3,7 @@ from django.contrib.auth.models import Group
 from django.db import models
 from django.utils import timezone
 from help.constants import ArticleContentType, ReferenceInfoStatus
+from help.managers import SectionManager, SubsectionManager
 
 
 class LastActionModel(models.Model):
@@ -28,6 +29,8 @@ class Section(LastActionModel):
     order = models.PositiveSmallIntegerField(default=0)
     deleted_at = models.DateTimeField(null=True, blank=True)
 
+    objects = SectionManager()
+
     def get_max_order(self):
         return self._meta.model.objects.aggregate(max_num=models.Max('order'))['max_num']
 
@@ -48,6 +51,8 @@ class Subsection(LastActionModel):
     order = models.PositiveSmallIntegerField(default=0)
     deleted_at = models.DateTimeField(null=True, blank=True)
     documents = models.ManyToManyField(to=FileAttachment, blank=True, related_name='subsection_documents')
+
+    objects = SubsectionManager()
 
     def get_max_order(self):
         return self._meta.model.objects.filter(section=self.section).aggregate(max_num=models.Max('order'))['max_num']

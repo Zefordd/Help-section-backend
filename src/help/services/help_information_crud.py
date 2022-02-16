@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import Union
 
 from help.constants import ReferenceInfoStatus
@@ -104,3 +104,9 @@ def delete_subsection(subsection: Subsection, user: User):
     subsection.deleted_at = now
     subsection.updated_by = user
     subsection.save()
+
+
+def remove_deleted_help_info_instances():
+    seven_days_ago = datetime.now() - timedelta(days=7)
+    Section.objects.filter(deleted_at__lte=seven_days_ago).delete()
+    Subsection.objects.filter(deleted_at__lte=seven_days_ago).delete()
