@@ -4,8 +4,9 @@ from pathlib import Path
 
 from environs import Env
 
+_env_file_name = os.environ.get('ENV_FILE_NAME')
 env = Env()
-env.read_env(override=True)
+env.read_env(path=_env_file_name, override=True)
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -96,7 +97,7 @@ TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 _url_prefix = env.str('API_URL_PEFIX', '')

@@ -1,7 +1,11 @@
-*.env
+.env
 readme
 .idea
 docker-compose*
 README.md
 .gitignore
 .dockerignore
+log
+media
+.idea/
+.DS_Store

@@ -13,4 +13,9 @@ Fill database with test data:
 
     $ docker exec -it help_section_backend_container sh entrypoint.sh
 
+Run tests:
+
+    $ docker exec -it help_section_backend_container pytest 
+
+
 Go to http://0.0.0.0:8001/
