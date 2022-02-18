@@ -10,7 +10,9 @@ class Command(BaseCommand):
         """
         Create or update roles and permissions
         """
+        print('Set up groups')
         self.create_groups()
+        print('Done')
 
     def create_groups(self):
         self._create_groups()

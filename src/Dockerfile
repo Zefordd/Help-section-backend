@@ -1,8 +1,16 @@
-# syntax=docker/dockerfile:1
-FROM python:3
+FROM python:3.10
+
+
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
-WORKDIR /code
-COPY requirements.txt /code/
-RUN pip install -r requirements.txt
-COPY . /code/
+
+
+WORKDIR /usr/src/src
+
+
+COPY ./requirements.txt /usr/src/requirements.txt
+RUN pip install -r /usr/src/requirements.txt
+
+COPY . /usr/src/src
+
+EXPOSE 8000

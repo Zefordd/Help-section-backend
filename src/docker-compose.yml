@@ -1,0 +1,34 @@
+version: "3.8"
+services:
+  db:
+    container_name: help_db
+    image: postgres:13.6-alpine
+    volumes:
+      - pg_data:/var/lib/postgresql/data/
+    environment:
+      POSTGRES_USER: ${SQL_USER}
+      POSTGRES_PASSWORD: ${SQL_PASSWORD}
+      POSTGRES_DB: ${SQL_DATABASE}
+      POSTGRES_HOST: ${SQL_HOST}
+      POSTGRES_HOST_AUTH_METHOD: trust
+    ports:
+      - "5432:5432"
+
+  web:
+    container_name: help_section_backend_container
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    command: python manage.py runserver 0.0.0.0:8001
+    volumes:
+      - .:/usr/src/src
+    ports:
+      - "8001:8001"
+    env_file:
+      - ../docker-env.env
+
+    depends_on:
+      - db
+
+volumes:
+  pg_data:

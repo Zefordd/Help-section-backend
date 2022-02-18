@@ -8,7 +8,9 @@ from mainapp.models import User
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
+        print('Create users')
         self.create_users()
+        print('Done')
 
     def create_users(self):
         existing_users = set(User.objects.values_list('username', flat=True))
