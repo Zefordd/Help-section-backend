@@ -18,4 +18,4 @@ Run tests:
     $ docker exec -it help_section_backend_container pytest 
 
 
-Go to http://0.0.0.0:8001/
+Go to http://0.0.0.0:8000/
