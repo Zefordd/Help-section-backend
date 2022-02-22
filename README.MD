@@ -1,6 +1,10 @@
 # Help section backend
 
-## Setup with docker
+This is a completely useless project. Created only to demonstrate my programming skills
+
+## Getting started
+
+### Setup with docker
 Clone the repository:
 
     $ git clone https://github.com/Zefordd/help_section_backend.git
@@ -17,8 +21,9 @@ Run tests:
 
     $ docker exec -it help_section_backend_container pytest 
 
+Go to http://0.0.0.0:8000/
 
-## Setup with virtualenv
+### Setup with virtualenv
 Clone the repository:
 
     $ git clone https://github.com/Zefordd/help_section_backend.git
@@ -54,10 +59,9 @@ Run server
 
 $ python manage.py runserver
 
-## Getting started
+Go to http://127.0.0.1:8000/
 
-Go to http://0.0.0.0:8000/ if you use docker or to http://127.0.0.1:8000/ if you run server with virtualenv
-
+## Test API
 To play with API you can authorize via swagger with these credentials:
 
     Username: superadmin
